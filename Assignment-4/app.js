@@ -29,7 +29,7 @@ async function checkWeather(city){
 
         const temp = Math.round(data.main.temp);
         const humidity = data.main.humidity;
-        const windSpeed = data.wind.speed;
+        const windSpeed = Math.round(data.wind.speed * 3.6);
         const description = data.weather[0].main;
         const cityName = data.name;
         const country = data.sys.country;
