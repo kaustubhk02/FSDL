@@ -1,0 +1,11 @@
+City,Temperature (°C),Feels Like (°C),Humidity (%),Pressure (hPa),Weather,Wind Speed (m/s),Temp_Label
+New York,23.35,23.54,69,1002,Few clouds,7.2,Mild
+San Francisco,23.3,23.3,62,1015,Few clouds,3.6,Mild
+London,21.78,21.76,67,1018,Broken clouds,4.12,Mild
+Tokyo,15.9,15.5,75,1005,Heavy intensity rain,9.77,Mild
+Delhi,30.05,31.28,51,996,Haze,1.03,Hot
+Cairo,26.42,26.42,50,1009,Clear sky,5.66,Hot
+Sao Paulo,17.63,17.35,73,1021,Few clouds,5.14,Mild
+Sydney,12.98,12.53,84,1027,Overcast clouds,3.6,Cold
+Toronto,24.59,24.31,46,1000,Overcast clouds,1.79,Mild
+Paris,28.03,28.22,47,1018,Clear sky,3.09,Hot
