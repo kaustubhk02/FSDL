@@ -1,0 +1,101 @@
+const express = require('express');
+const mongoose = require('mongoose');
+
+const packageSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    destination: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        enum: ["Domestic", "International"],
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    duration: {
+        type: String,
+        required: true
+    },
+    description: String,
+    image: String,
+    availableSeats: {
+        type: Number,
+        default: 50
+    },
+    rating: {
+        type: Number,
+        default: 4
+    },
+    startDate: Date,
+    endDate: Date,
+    itinerary: [String],
+    inclusions: [String],
+    exclusions: [String],
+    isFeatured: {
+        type: Boolean,
+        default: false
+    },
+    status: {
+        type: String,
+        enum: ["Available", "Sold Out"],
+        default: "Available"
+    }
+}, 
+{ timestamps: true }
+);
+
+const bookingSchema = new mongoose.Schema({
+    userName: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    package: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Package",
+        required: true
+    },
+    numberOfPeople: {
+        type: Number,
+        required: true
+    },
+    totalAmount: {
+        type: Number,
+        required: true
+    },
+    travelDate: {
+        type: Date,
+        required: true
+    },
+    bookingStatus: {
+        type: String,
+        enum: ["Pending", "Confirmed", "Cancelled"],
+        default: "Pending"
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["Paid", "Unpaid"],
+        default: "Unpaid"
+    }
+}, 
+{ timestamps: true }
+);
+
+const Package = mongoose.model('package', packageSchema);
+const Booking = mongoose.model('package', bookingSchema);
+
+module.exports = { Package, Booking };
