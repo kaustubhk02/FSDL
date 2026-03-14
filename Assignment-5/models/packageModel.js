@@ -96,6 +96,6 @@ const bookingSchema = new mongoose.Schema({
 );
 
 const Package = mongoose.model('package', packageSchema);
-const Booking = mongoose.model('package', bookingSchema);
+const Booking = mongoose.model('booking', bookingSchema);
 
 module.exports = { Package, Booking };
