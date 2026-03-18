@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<h1>Welcome to Kohinoor Travel Agency</h1>
+
+<h2>Featured Packages</h2>
+
+<% packages.forEach(pkg => { %>
+    <div>
+        <h3><%= pkg.title %></h3>
+        <img src="/images/<%= pkg.image %>" alt="package">
+        <p><%= pkg.destination %></p>
+        <a href="/api/packages/<%= pkg._id %>">View Details</a>
+        
+    </div>
+<% }) %>
+
+<%- include('../partials/footer') %>

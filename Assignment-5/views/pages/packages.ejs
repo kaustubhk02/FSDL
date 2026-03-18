@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+
+<h1>All Packages</h1>
+
+<% packages.forEach(pkg => { %>
+    <div>
+        <h3><%= pkg.title %></h3>
+        <img src="/images/<%= pkg.image %>" alt="package">
+        <p>Price: ₹<%= pkg.price %></p>
+        <a href="/api/packages/<%= pkg._id %>">Details</a>
+    </div>
+<% }) %>
+
+<%- include('../partials/footer') %>
