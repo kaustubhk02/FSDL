@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pageController = require('../controllers/pageController');
+const pageController = require('../controllers/packageController');
 
 router.get('/', pageController.getHomePage);
 router.get('/packages', pageController.getPackagesPage);

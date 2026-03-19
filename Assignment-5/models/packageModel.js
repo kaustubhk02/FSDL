@@ -51,16 +51,9 @@ const packageSchema = new mongoose.Schema({
 );
 
 const bookingSchema = new mongoose.Schema({
-    userName: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    phone: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
     package: {
@@ -90,9 +83,7 @@ const bookingSchema = new mongoose.Schema({
         enum: ["Paid", "Unpaid"],
         default: "Unpaid"
     }
-}, 
-{ timestamps: true }
-);
+}, { timestamps: true });
 
 const Package = mongoose.model('package', packageSchema);
 const Booking = mongoose.model('booking', bookingSchema);
