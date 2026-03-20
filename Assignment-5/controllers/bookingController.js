@@ -1,50 +1,53 @@
-const User = require('../models/userModel');
-const { Booking } = require('../models/packageModel');
+const { Booking, Package } = require("../models/packageModel");
 
 exports.createBooking = async (req, res) => {
-    try {
-        // STEP 1: Check if user already exists
-        let user = await User.findOne({ email: req.body.email });
-
-        // STEP 2: If not, create new user
-        if (!user) {
-            user = await User.create({
-                name: req.body.name,
-                email: req.body.email,
-                phone: req.body.phone,
-                password: "default123" // temporary
-            });
-        }
-
-        const savedUser = await newUser.save();
-
-        // 2. Create booking using user ID
-        const booking = new Booking({
-            user: savedUser._id,
-            package: req.body.package,
-            numberOfPeople: req.body.numberOfPeople,
-            totalAmount: req.body.totalAmount,
-            travelDate: req.body.travelDate
-        });
-
-        const savedBooking = await booking.save();
-
-        res.status(201).json(savedBooking);
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    // 1. Check login
+    if (!req.session.user) {
+      return res.redirect("/users/login");
     }
+
+    const user = req.session.user;
+
+    const { package: packageId, numberOfPeople, travelDate } = req.body;
+
+    // 2. Get package
+    const pkg = await Package.findById(packageId);
+
+    if (!pkg) {
+      return res.status(404).send("Package not found");
+    }
+
+    // 3. Calculate total
+    const totalAmount = pkg.price * numberOfPeople;
+
+    // 4. Create booking
+    const booking = new Booking({
+      user: user._id,
+      package: packageId,
+      numberOfPeople,
+      totalAmount,
+      travelDate,
+    });
+
+    await booking.save();
+
+    res.redirect("/my-bookings");
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Get all bookings with user + package details
 exports.getAllBookings = async (req, res) => {
-    try {
-        const bookings = await Booking.find()
-            .populate('user')
-            .populate('package');
+  try {
+    const bookings = await Booking.find()
+      .populate("user")
+      .populate("package");
 
-        res.status(200).json(bookings);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    res.render("pages/bookings", { bookings });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

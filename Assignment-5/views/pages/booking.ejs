@@ -4,21 +4,9 @@
     <div class="card shadow p-4">
         <h3 class="mb-4">Book Your Trip</h3>
 
-        <form action="/api/bookings/book" method="POST">
+        <form action="/bookings/book" method="POST">
 
             <input type="hidden" name="package" value="<%= packageId %>">
-
-            <div class="mb-3">
-                <input class="form-control" name="name" placeholder="Full Name" required>
-            </div>
-
-            <div class="mb-3">
-                <input class="form-control" name="email" placeholder="Email" required>
-            </div>
-
-            <div class="mb-3">
-                <input class="form-control" name="phone" placeholder="Phone" required>
-            </div>
 
             <div class="mb-3">
                 <input class="form-control" type="number" name="numberOfPeople" placeholder="No. of People" required>

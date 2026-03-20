@@ -29,8 +29,25 @@ exports.getPackageDetails = async (req, res) => {
 
 exports.getBookingPage = async (req, res) => {
     try {
-        res.render('pages/booking');
+        const packageId = req.query.package;
+        res.render('pages/booking', { packageId });
     } catch (err) {
         res.status(500).send("Server Error: " + err.message);
+    }
+};
+
+exports.getMyBookings = async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect('/users/login');
+        }
+
+        const bookings = await Booking.find({ user: req.session.user._id })
+            .populate('package');
+
+        res.render('pages/myBookings', { bookings });
+
+    } catch (err) {
+        res.send(err.message);
     }
 };

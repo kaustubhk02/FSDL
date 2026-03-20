@@ -85,7 +85,7 @@ const bookingSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const Package = mongoose.model('package', packageSchema);
-const Booking = mongoose.model('booking', bookingSchema);
+const Package = mongoose.model('Package', packageSchema);
+const Booking = mongoose.model('Booking', bookingSchema);
 
 module.exports = { Package, Booking };

@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const pageController = require('../controllers/packageController');
+const packageController = require('../controllers/packageController');
 
-router.get('/', pageController.getHomePage);
-router.get('/packages', pageController.getPackagesPage);
-router.get('/packages/:id', pageController.getPackageDetails);
-router.get('/booking', pageController.getBookingPage);
+router.get('/', packageController.getHomePage);
+router.get('/packages', packageController.getPackagesPage);
+router.get('/packages/:id', packageController.getPackageDetails);
+router.get('/booking', packageController.getBookingPage);
+router.get('/my-bookings', packageController.getMyBookings);
 
 module.exports = router;
