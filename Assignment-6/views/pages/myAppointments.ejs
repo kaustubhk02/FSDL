@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+
+<h2>My Appointments</h2>
+
+<% appointments.forEach(app => { %>
+  <div>
+    <p>Patient: <%= app.patientName %></p>
+    <p>Doctor: <%= app.doctor.name %></p>
+    <p>Date: <%= app.date.toDateString() %></p>
+    <p>Slot: <%= app.slot %></p>
+    <p>Status: <%= app.status %></p>
+  </div>
+<% }) %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+
+    <h2>Doctors List</h2>
+
+    <% doctors.forEach(doc=> { %>
+        <div>
+            <h3>
+                <%= doc.name %>
+            </h3>
+            <p>Specialization: <%= doc.specialization %>
+            </p>
+            <p>Fee: ₹<%= doc.fee %>
+            </p>
+            <a href="/doctor/<%= doc._id %>">View Details</a>
+        </div>
+        <% }) %>
+
+<%- include('../partials/footer') %>

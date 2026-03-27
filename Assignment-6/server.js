@@ -1,49 +1,43 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
-
-const packageRoutes = require('./routes/packageRoutes');
-const userRoutes = require('./routes/userRoutes');
-const bookingRoutes = require('./routes/bookingRoutes');
 
 const app = express();
-const PORT = 3000;
 
+app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
+
+mongoose.connect('mongodb://127.0.0.1:27017/doctorDB').then(() => console.log("MongoDB Connected"))
+    .catch(err => console.log(err));
+
+const doctorRoutes = require('./routes/doctorRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const userRoutes = require('./routes/userRoutes');
 const session = require('express-session');
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Add AFTER middleware
 app.use(session({
-    secret: 'travel_secret',
-    resave: false,
-    saveUninitialized: false
+  secret: 'secretKey',
+  resave: false,
+  saveUninitialized: false
 }));
 
 app.use((req, res, next) => {
-    res.locals.user = req.session.user;
-    next();
+  res.locals.user = req.session.user || null;
+  next();
 });
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', doctorRoutes);
+app.use('/', appointmentRoutes);
+app.use('/', userRoutes);
 
-// View engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.get('/', (req, res) => {
+    res.render('pages/home');
+});
 
-// MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/travelDB")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+});
 
-// Routes
-app.use('/', packageRoutes);
-app.use('/users', userRoutes);
-app.use('/bookings', bookingRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
 });

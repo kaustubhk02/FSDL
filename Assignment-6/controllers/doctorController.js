@@ -5,7 +5,13 @@ exports.getAllDoctors = async (req, res) => {
   res.render('pages/doctors', { doctors });
 };
 
+const Appointment = require('../models/appointmentModel');
+
 exports.getDoctorById = async (req, res) => {
   const doctor = await Doctor.findById(req.params.id);
-  res.render('pages/doctorDetails', { doctor });
+
+  const appointments = await Appointment.find({ doctor: doctor._id })
+    .populate('user');
+
+  res.render('pages/doctorDetails', { doctor, appointments });
 };

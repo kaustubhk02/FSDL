@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<h2>Book Doctor Appointment</h2>
+
+<form action="/book" method="POST">
+
+  <!-- Hidden user (if using login session, you can auto-fill later) -->
+  <!-- <input type="hidden" name="userId" value="<%= user._id %>" /> -->
+
+  <!-- Patient Basic Info -->
+  <label>Name:</label>
+  <input type="text" name="patientName" placeholder="Enter your name" required />
+
+  <label>Gender:</label>
+  <select name="gender" required>
+    <option value="">Select</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Other</option>
+  </select>
+
+  <label>Age:</label>
+  <input type="number" name="age" required />
+
+  <label>Phone:</label>
+  <input type="text" name="phone" required />
+
+  <!-- Doctor Selection -->
+  <label>Select Doctor:</label>
+  <select name="doctorId" required>
+    <% doctors.forEach(doc => { %>
+      <option value="<%= doc._id %>"><%= doc.name %> - <%= doc.specialization %></option>
+    <% }) %>
+  </select>
+
+  <!-- Appointment Info -->
+  <label>Date:</label>
+  <input type="date" name="date" required />
+
+  <label>Time Slot:</label>
+  <select name="slot">
+    <option>10:00 AM</option>
+    <option>11:00 AM</option>
+    <option>12:00 PM</option>
+  </select>
+
+  <!-- Medical Details -->
+  <label>Weight (kg):</label>
+  <input type="number" name="weight" />
+
+  <label>Blood Pressure:</label>
+  <input type="text" name="bloodPressure" placeholder="e.g. 120/80" />
+
+  <label>Symptoms:</label>
+  <textarea name="symptoms" placeholder="Describe your problem"></textarea>
+
+  <label>Additional Notes:</label>
+  <textarea name="notes"></textarea>
+
+  <button type="submit">Book Appointment</button>
+</form>
+
+<%- include('../partials/footer') %>
