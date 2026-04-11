@@ -1,43 +1,69 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const path = require('path');
 
 const app = express();
 
+// ─── Middleware ───────────────────────────────────────────────
 app.use(express.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));  // serve CSS/JS files
 
-mongoose.connect('mongodb://127.0.0.1:27017/doctorDB').then(() => console.log("MongoDB Connected"))
-    .catch(err => console.log(err));
-
-const doctorRoutes = require('./routes/doctorRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
-const userRoutes = require('./routes/userRoutes');
-const session = require('express-session');
-
+// Session must be registered BEFORE routes (it was after routes before)
 app.use(session({
-  secret: 'secretKey',
+  secret: process.env.SESSION_SECRET || 'change-this-in-production',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }  // 1 day
 }));
 
+// Make `user` available to every EJS template automatically
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
+// ─── View Engine ──────────────────────────────────────────────
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// ─── Database ─────────────────────────────────────────────────
+mongoose
+  .connect('mongodb://127.0.0.1:27017/doctorDB')
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  });
+
+// ─── Routes ───────────────────────────────────────────────────
+const doctorRoutes      = require('./routes/doctorRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const userRoutes        = require('./routes/userRoutes');
+
 app.use('/', doctorRoutes);
 app.use('/', appointmentRoutes);
 app.use('/', userRoutes);
 
+// Home
 app.get('/', (req, res) => {
-    res.render('pages/home');
+  res.render('pages/home');
 });
 
+// Logout
 app.get('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/login');
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
 });
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+// 404 fallback
+app.use((req, res) => {
+  res.status(404).send('Page not found.');
+});
+
+// ─── Start ────────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });

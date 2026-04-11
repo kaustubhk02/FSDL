@@ -1,18 +1,30 @@
 <%- include('../partials/header') %>
 
-    <h2>Doctors List</h2>
+<div class="container my-4">
+  <h2 class="mb-4">Our Doctors</h2>
 
-    <% doctors.forEach(doc=> { %>
-        <div>
-            <h3>
-                <%= doc.name %>
-            </h3>
-            <p>Specialization: <%= doc.specialization %>
-            </p>
-            <p>Fee: ₹<%= doc.fee %>
-            </p>
-            <a href="/doctor/<%= doc._id %>">View Details</a>
+  <% if (doctors.length === 0) { %>
+    <div class="alert alert-info">No doctors available at the moment.</div>
+  <% } else { %>
+    <div class="row g-3">
+      <% doctors.forEach(doc => { %>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><%= doc.name %></h5>
+              <img src="<%= doc.image %>" alt="image">
+              <p class="card-text text-muted"><%= doc.specialization %></p>
+              <p class="card-text"><strong>Experience:</strong> <%= doc.experience %> years</p>
+              <p class="card-text"><strong>Fee:</strong> ₹<%= doc.fee %></p>
+            </div>
+            <div class="card-footer">
+              <a href="/doctor/<%= doc._id %>" class="btn btn-primary btn-sm w-100">View & Book</a>
+            </div>
+          </div>
         </div>
-        <% }) %>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
 
 <%- include('../partials/footer') %>

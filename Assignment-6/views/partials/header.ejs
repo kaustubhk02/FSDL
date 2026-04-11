@@ -1,53 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Doctor Appointment System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Basic Styling -->
-    <style>
-        body {
-            font-family: Arial;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav {
-            background: #2c3e50;
-            padding: 10px;
-        }
-
-        nav a {
-            color: white;
-            margin: 10px;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            padding: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Appointment System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-
 <body>
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/doctors">Doctors</a>
-        <a href="/appointments">My Appointments</a>
+<nav class="navbar navbar-dark px-3" style="background:#2c3e50;">
+  <a class="navbar-brand fw-bold" href="/">DoctorsDoor</a>
+  <div class="d-flex gap-3 align-items-center">
+    <a class="text-white text-decoration-none" href="/doctors">Doctors</a>
 
-        <% if (typeof user !== 'undefined' && user) { %>
-            <!-- IF LOGGED IN -->
-            <span style="color:white;">Welcome, <%= user.name %></span>
-            <a href="/logout">Logout</a>
-            <% } else { %>
-                <!-- IF NOT LOGGED IN -->
-                <a href="/login">Login</a>
-                <% } %>
-    </nav>
-    <div class="container">
+    <% if (user) { %>
+      <a class="text-white text-decoration-none" href="/appointments">My Appointments</a>
+      <!-- Shows user.name (full name), not username -->
+      <span class="text-white"><%= user.name %></span>
+      <a class="btn btn-outline-light btn-sm" href="/logout">Logout</a>
+    <% } else { %>
+      <a class="btn btn-outline-light btn-sm" href="/login">Login</a>
+      <a class="btn btn-success btn-sm" href="/signup">Sign Up</a>
+    <% } %>
+  </div>
+</nav>
+
+<div class="container mt-3">

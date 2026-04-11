@@ -1,15 +1,31 @@
 <%- include('../partials/header') %>
 
-<h2>My Appointments</h2>
+<div class="container my-4">
+  <h2 class="mb-4">My Appointments</h2>
 
-<% appointments.forEach(app => { %>
-  <div>
-    <p>Patient: <%= app.patientName %></p>
-    <p>Doctor: <%= app.doctor.name %></p>
-    <p>Date: <%= app.date.toDateString() %></p>
-    <p>Slot: <%= app.slot %></p>
-    <p>Status: <%= app.status %></p>
-  </div>
-<% }) %>
+  <% if (appointments.length === 0) { %>
+    <div class="alert alert-info">
+      You have no appointments yet.
+      <a href="/doctors">Browse doctors</a> to book one.
+    </div>
+  <% } else { %>
+    <% appointments.forEach(app => { %>
+      <div class="card p-3 mb-3 shadow-sm">
+        <p class="mb-1"><strong>Doctor:</strong> <%= app.doctor ? app.doctor.name : 'N/A' %></p>
+        <p class="mb-1"><strong>Specialization:</strong> <%= app.doctor ? app.doctor.specialization : '' %></p>
+        <p class="mb-1"><strong>Date:</strong> <%= app.date.toDateString() %></p>
+        <p class="mb-1"><strong>Slot:</strong> <%= app.slot %></p>
+        <p class="mb-0">
+          <strong>Status:</strong>
+          <span class="badge
+            <%= app.status === 'Booked' ? 'bg-success' :
+               app.status === 'Cancelled' ? 'bg-danger' : 'bg-secondary' %>">
+            <%= app.status %>
+          </span>
+        </p>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
 
 <%- include('../partials/footer') %>

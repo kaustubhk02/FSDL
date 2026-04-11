@@ -1,8 +1,21 @@
 <%- include('../partials/header') %>
 
-<h1>Doctor Appointment System</h1>
+<div class="container my-5 text-center">
+  <h1 class="display-5 fw-bold mb-3">Doctor Appointment System</h1>
+  <p class="lead text-muted mb-4">
+    Book appointments with trusted doctors quickly and easily.
+  </p>
 
-<a href="/doctors">View Doctors</a>
-<a href="/appointments">My Appointments</a>
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <a href="/doctors" class="btn btn-primary btn-lg">Browse Doctors</a>
+
+    <% if (user) { %>
+      <a href="/appointments" class="btn btn-outline-secondary btn-lg">My Appointments</a>
+    <% } else { %>
+      <a href="/login" class="btn btn-outline-primary btn-lg">Login</a>
+      <a href="/signup" class="btn btn-success btn-lg">Sign Up</a>
+    <% } %>
+  </div>
+</div>
 
 <%- include('../partials/footer') %>
