@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  // The logged-in patient who booked
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  // Display name (filled from user.name automatically in controller)
   patientName: {
     type: String,
     required: true

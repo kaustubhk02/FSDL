@@ -6,14 +6,13 @@ exports.bookAppointment = async (req, res) => {
     const { doctorId, date, slot } = req.body;
     const loggedInUser = req.session.user;
 
-    // Validate required fields
     if (!doctorId || !date || !slot) {
       return res.status(400).send('All fields are required.');
     }
 
     const appointment = new Appointment({
-      user: loggedInUser._id,          // ✅ Link to logged-in user (was missing)
-      patientName: loggedInUser.name,  // ✅ Auto-fill from session (not from raw input)
+      user: loggedInUser._id,         
+      patientName: loggedInUser.name, 
       doctor: doctorId,
       date: new Date(date),
       slot
@@ -28,11 +27,10 @@ exports.bookAppointment = async (req, res) => {
   }
 };
 
-// GET /appointments  (patient's own appointments)
 exports.getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find({
-      user: req.session.user._id   // ✅ Now works because appointmentModel has `user` field
+      user: req.session.user._id
     }).populate('doctor').sort({ date: -1 });
 
     res.render('pages/myAppointments', { appointments });

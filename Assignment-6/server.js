@@ -5,29 +5,25 @@ const path = require('path');
 
 const app = express();
 
-// ─── Middleware ───────────────────────────────────────────────
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));  // serve CSS/JS files
+app.use(express.static(path.join(__dirname, 'public'))); 
 
-// Session must be registered BEFORE routes (it was after routes before)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'change-this-in-production',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }  // 1 day
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// Make `user` available to every EJS template automatically
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-// ─── View Engine ──────────────────────────────────────────────
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ─── Database ─────────────────────────────────────────────────
+// Database 
 mongoose
   .connect('mongodb://127.0.0.1:27017/doctorDB')
   .then(() => console.log('MongoDB Connected'))
@@ -36,7 +32,7 @@ mongoose
     process.exit(1);
   });
 
-// ─── Routes ───────────────────────────────────────────────────
+// Routes 
 const doctorRoutes      = require('./routes/doctorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const userRoutes        = require('./routes/userRoutes');
@@ -57,12 +53,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// 404 fallback
 app.use((req, res) => {
   res.status(404).send('Page not found.');
 });
 
-// ─── Start ────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

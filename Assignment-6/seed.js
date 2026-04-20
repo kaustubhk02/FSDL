@@ -1,8 +1,3 @@
-/**
- * seed.js
- * Run once with:  node seed.js
- */
-
 const mongoose = require('mongoose');
 const bcrypt   = require('bcrypt');
 
@@ -16,12 +11,10 @@ async function seed() {
     await mongoose.connect(MONGO_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing data
     await User.deleteMany({});
     await Doctor.deleteMany({});
     console.log('Cleared existing Users and Doctors');
 
-    // Seed Users
     const users = await User.create([
       {
         username : 'patient1',
@@ -42,7 +35,6 @@ async function seed() {
     ]);
     console.log(`Seeded ${users.length} users`);
 
-    // Seed Doctors (FIX: added image field)
     const doctors = await Doctor.create([
       {
         name           : 'Dr. Anita Desai',
